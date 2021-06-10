@@ -29,6 +29,7 @@ int main(int argc, char *argv[])
 
     auto options = torch::TensorOptions()
         .dtype(torch::kFloat64)
+        .device(torch::kCUDA, 1)
         .requires_grad(true);
 
     cout << "->Creating a tensor with 10 values linearly spaced between 0 and 2xPi:\n";
@@ -42,26 +43,26 @@ int main(int argc, char *argv[])
     cout << sin_x << "\n";
 
     cout << "\n->Computing d/dx sin(x):\n";
-    sin_x.backward(torch::ones(n_val));
+    sin_x.backward(torch::ones(n_val, options));
     auto dx_sin_x = x.grad();
     cout << dx_sin_x << "\n";
 
-    cout << "\n->Comparing autograd and analytical solution:\n";
-    auto analytical = torch::cos(x);
-    auto analytical_accessor = analytical.accessor<double,1>();
-    auto autograd = dx_sin_x.accessor<double,1>();
-    cout << setw(15) << "autograd" << setw(15) << "analytical\n";
-    for (int64_t i=0; i < n_val; i++) {
-        cout << setw(15) << autograd[i] << setw(15) << analytical_accessor[i] << "\n";
-    }
+    // cout << "\n->Comparing autograd and analytical solution:\n";
+    // auto analytical = torch::cos(x);
+    // auto analytical_accessor = analytical.accessor<double,1>();
+    // auto autograd = dx_sin_x.accessor<double,1>();
+    // cout << setw(15) << "autograd" << setw(15) << "analytical\n";
+    // for (int64_t i=0; i < n_val; i++) {
+    //     cout << setw(15) << autograd[i] << setw(15) << analytical_accessor[i] << "\n";
+    // }
 
     cout << "\n->Saving the derivative for later use...\n";
     torch::save(dx_sin_x, "derivative.pt");
 
-    cout << "\n->Initializing a at::Tensor based on a std::vector:\n";
-    vector<double> some_vector{1.0, 2.0, 3.0};
-    auto tensor_from_vector = torch::from_blob(some_vector.data(), some_vector.size(), options).clone();
-    cout << tensor_from_vector << "\n";
+    // cout << "\n->Initializing a at::Tensor based on a std::vector:\n";
+    // vector<double> some_vector{1.0, 2.0, 3.0};
+    // auto tensor_from_vector = torch::from_blob(some_vector.data(), some_vector.size(), options).clone();
+    // cout << tensor_from_vector << "\n";
 
 
     cout << "\n->The end\n";
