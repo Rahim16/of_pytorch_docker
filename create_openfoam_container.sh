@@ -1,8 +1,8 @@
 username="$USER"
 user="$(id -u)"
-default_image="rahimn/of_pytorch:of2012-py1.8.1-gpu"
+default_image="rahimn/of_pytorch:of2012-py1.8.1-gpu-cuda102"
 image="${1:-$default_image}"
-default_container_name="of2012-py1.8.1-gpu"
+default_container_name="of2012-py1.8.1-gpu-cuda102"
 container_name="${2:-$default_container_name}"
 
 docker container run -it -d --name $container_name        \

@@ -1,9 +1,9 @@
 Bootstrap: docker
-From: rahimn/of_pytorch:of2012-py1.8.1-gpu
+From: rahimn/of_pytorch:of2012-py1.8.1-gpu-cuda102
 
 %runscript
 
-  CMD="${1:?[Please specify a command; singularity run-help of2012-py1.8.1-gpu.sif]}"
+  CMD="${1:?[Please specify a command; singularity run-help of2012-py1.8.1-gpu-cuda102.sif]}"
 
   # openFOAM environment variables
   . /usr/lib/openfoam/openfoam2012/etc/bashrc
@@ -30,10 +30,10 @@ From: rahimn/of_pytorch:of2012-py1.8.1-gpu
   Examples:
 
   - compile the application tensorCreation using wmake
-    singularity run of2012-py1.8.1-gpu.sif wmake test/tensorCreation/
+    singularity run of2012-py1.8.1-gpu-cuda102.sif wmake test/tensorCreation/
 
   - clean tensorCreation build
-    singularity run of2012-py1.8.1-gpu.sif wclean test/tensorCreation/
+    singularity run of2012-py1.8.1-gpu-cuda102.sif wclean test/tensorCreation/
 
   - run tensorCreation
-    singularity run of2012-py1.8.1-gpu.sif ./tensorCreation test/tensorCreation/
+    singularity run of2012-py1.8.1-gpu-cuda102.sif ./tensorCreation test/tensorCreation/
